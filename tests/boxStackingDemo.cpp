@@ -40,7 +40,8 @@ int main() {
 
         float currentTime = static_cast<float>(glfwGetTime());
         float dt = currentTime - lastTime;
-        world.update(dt, renderer);
+        world.update(dt);
+    	graphics::drawPhysicsWorld(world, renderer);
 
         lastTime = currentTime;
 

@@ -1,5 +1,6 @@
 #include <cmath>
 #include <glm/glm.hpp>
+#include <glm/gtx/hash.hpp>
 #include <tuple>
 #include <unordered_set>
 #include <vector>
@@ -11,9 +12,9 @@
 namespace phe::physics::collision {
 
 static std::tuple<int, int, int> findBodyGridCell(RigidBody* b, GridPartition& gp) {
-    int gridX = (int)floor(b->trans.translation.x / gp.gridSize);
-    int gridY = (int)floor(b->trans.translation.y / gp.gridSize);
-    int gridZ = (int)floor(b->trans.translation.z / gp.gridSize);
+    int gridX = (int) std::floor(b->trans.translation.x / gp.gridSize);
+    int gridY = (int) std::floor(b->trans.translation.y / gp.gridSize);
+    int gridZ = (int) std::floor(b->trans.translation.z / gp.gridSize);
 
     return std::make_tuple(gridX, gridY, gridZ);
 }
@@ -34,9 +35,7 @@ static void checkNeighboringCells(std::tuple<int, int, int> cell, RigidBody* cur
                 if (x == 0 && y == 0 && z == 0) continue;
 
                 // Get the neighbor cell by adding current cell coordinates + current neighbor coordinates (represented by x, y and z)
-                auto neighborCell = std::make_tuple(std::get<0>(cell) + x,
-                                                    std::get<1>(cell) + y,
-                                                    std::get<2>(cell) + z);
+                auto neighborCell = glm::ivec3(std::get<0>(cell) + x, std::get<1>(cell) + y, std::get<2>(cell) + z);
 
                 // O(1) look up time
                 auto it = gp.gridCells.find(neighborCell);
@@ -96,11 +95,15 @@ void resolveCollision(RigidBody &a, RigidBody &b, CollisionInfo collisionInfo) {
     // Impulse is given by j * n (Minimum Penetration Axis)
     glm::vec3 impulse = j * mpa;
 
+	// notify handlers of the collision
+	a.on_collision(b);
+	b.on_collision(a);
+
     physics::applyImpulse(a, impulse, rA);
     physics::applyImpulse(b, -impulse, rB);
 }
 
-std::vector<RigidBody*> broadPhaseFilter(std::vector<RigidBody*> bodies, GridPartition& gp) {
+std::vector<RigidBody*> broadPhaseFilter(const std::vector<RigidBody*>& bodies, GridPartition& gp) {
     std::vector<RigidBody*> possibleCollisions;
 
     for (RigidBody* b : bodies) {
