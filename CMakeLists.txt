@@ -43,16 +43,16 @@ if (PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 			${GLEW_LIBRARIES}
 	)
 
-	add_executable(singleBodyDemo tests/singleBodyDemo.cpp)
-	target_link_libraries(singleBodyDemo PRIVATE pheV3_graphics)
+	add_executable(singleDemo tests/single.cpp)
+	target_link_libraries(singleDemo PRIVATE pheV3_graphics)
 
-	add_executable(collisionDetectionTest tests/collisionDetectionTest.cpp)
-	target_link_libraries(collisionDetectionTest PRIVATE pheV3_graphics)
+	add_executable(collisionDemo tests/collision.cpp)
+	target_link_libraries(collisionDemo PRIVATE pheV3_graphics)
 
-	add_executable(boxStackingDemo tests/boxStackingDemo.cpp)
-	target_link_libraries(boxStackingDemo PRIVATE pheV3_graphics)
+	add_executable(stackingDemo tests/stacking.cpp)
+	target_link_libraries(stackingDemo PRIVATE pheV3_graphics)
 
-	add_executable(headlessDemo tests/headlessDemo.cpp)
+	add_executable(headlessDemo tests/headless.cpp)
 	target_link_libraries(headlessDemo PRIVATE pheV3)
 
 else()

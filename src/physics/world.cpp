@@ -1,8 +1,8 @@
 #include <cstddef>
 
-#include "physics/physicsWorld.hpp"
+#include "physics/world.hpp"
 #include "physics/collision.hpp"
-#include "physics/collisionUtils.hpp"
+#include "physics/utils.hpp"
 #include "physics/rigidbody.hpp"
 
 namespace phe::physics {
@@ -31,6 +31,12 @@ void PhysicsWorld::update(float dt) {
 	for (int i = 0; i < bodies.size(); i++) {
 		RigidBody* a = bodies[i];
 
+		if (a->isDynamic) {
+			applyForce(*a, GRAVITY, glm::vec3(0.0f, 0.0f, 0.0f));
+			integrateForces(*a, dt);
+			integrateVelocity(*a, dt);
+		}
+
 		for (int j = 0; j < bodies.size(); j++) {
 			if (j == i) {
 				continue;
@@ -43,12 +49,6 @@ void PhysicsWorld::update(float dt) {
 			if (info.isColliding) {
 			    collision::resolveCollision(*a, *b, info);
 			}
-		}
-
-		if (a->isDynamic) {
-			applyForce(*a, GRAVITY, glm::vec3(0.0f, 0.0f, 0.0f));
-			integrateForces(*a, dt);
-			integrateVelocity(*a, dt);
 		}
 	}
 }

@@ -1,12 +1,11 @@
 // This was made to test collision detection between two Rigid Bodies.
 #include <glm/glm.hpp>
-#include <physics/physicsWorld.hpp>
+#include <physics/world.hpp>
 
 #include "graphics/renderer.hpp"
 #include "graphics/window.hpp"
 #include "physics/collision.hpp"
 #include "physics/rigidbody.hpp"
-#include "physics/collisionUtils.hpp"
 
 using namespace phe;
 
@@ -40,7 +39,7 @@ int main() {
 	world.addRigidBody(&rb2);
 	world.addRigidBody(&rb1);
 
-    float lastTime = 0.0f;
+	float lastTime = static_cast<float>(glfwGetTime()) - 0.1;
 
 	rb1.on_collision = [&] (physics::RigidBody& rb) {
 		printf("Collision!\n");

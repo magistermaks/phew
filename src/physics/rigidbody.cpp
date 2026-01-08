@@ -60,6 +60,7 @@ void applyForce(RigidBody& rb, glm::vec3 f, glm::vec3 r) {
 }
 
 void applyImpulse(RigidBody &rb, glm::vec3 i, glm::vec3 r) {
+    if (!rb.isDynamic) return;
     applyLinearImpulse(rb, i);
     applyAngularImpulse(rb, i, r);
 }

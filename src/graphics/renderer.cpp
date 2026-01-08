@@ -5,7 +5,7 @@
 #include "graphics/renderer.hpp"
 
 #include <graphics/mesh.hpp>
-#include <physics/physicsWorld.hpp>
+#include <physics/world.hpp>
 
 namespace phe::graphics {
 

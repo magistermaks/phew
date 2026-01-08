@@ -6,7 +6,7 @@
 
 #include <unordered_map>
 
-#include "physics/collisionUtils.hpp"
+#include "physics/utils.hpp"
 #include "physics/rigidbody.hpp"
 
 #define RESTITUTION_CO 0.78f

@@ -1,4 +1,4 @@
-#include "physics/collisionUtils.hpp"
+#include "physics/utils.hpp"
 #include "physics/mesh.hpp"
 #include "physics/rigidbody.hpp"
 #include <algorithm>
@@ -57,6 +57,10 @@ std::vector<glm::vec3> computeCubeEdges(const RigidBody& rb) {
 CollisionInfo areColliding(RigidBody& a, RigidBody& b) {
     std::vector<glm::vec3> axes;    
     CollisionInfo collisionInfo {};
+
+	if (!a.isDynamic && !b.isDynamic) {
+		return collisionInfo;
+	}
 
     auto normalsA = computeCubeNormals(a);
     auto normalsB = computeCubeNormals(b);

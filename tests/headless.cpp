@@ -1,8 +1,7 @@
 #include <cstdio>
-#include <thread>
 #include <glm/glm.hpp>
 
-#include "physics/physicsWorld.hpp"
+#include "physics/world.hpp"
 #include "physics/rigidbody.hpp"
 
 using namespace phe;
